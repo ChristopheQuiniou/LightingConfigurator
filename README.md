@@ -1,2 +1,2 @@
 # LightingConfigurator
-Basic nodeJS and treeJS project
+Basic CPQ (Configure, Price, Quote) with treeJS
