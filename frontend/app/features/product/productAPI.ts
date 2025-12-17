@@ -1,10 +1,36 @@
 import { redirect } from "react-router";
 import type { Product, ProductSearchOptions } from "./productType";
 
-export async function getProduct(options : ProductSearchOptions) {
+export async function getProduct(id : String) {
     try {
+        
+        const response = await fetch(`http://localhost:3000/api/v1/products/${id}`,{
+            method: "GET", // Specify the HTTP method
+            headers: {
+                "Content-Type": "application/json", // Tell the server you're sending JSON
+            },
+        });
+
+        if (!response.ok) {
+            return {error: {message:"Product search error"}};
+        }
+
+        const json = await response.json();
+        if (!json.success){
+            return {error: {message:json.message}};
+        }
+
+        return {data:json};
+    } catch (err) {
+        return {error: {message: err ?? "Unknown error"}};
+    }
+}
+
+export async function getProducts(options : ProductSearchOptions) {
+    try {
+        
         const searchParams = new URLSearchParams(options as any); 
-        const response = await fetch(`http://localhost:3000/api/v1/product?${searchParams}`,{
+        const response = await fetch(`http://localhost:3000/api/v1/products?${searchParams}`,{
             method: "GET", // Specify the HTTP method
             headers: {
                 "Content-Type": "application/json", // Tell the server you're sending JSON
@@ -28,7 +54,7 @@ export async function getProduct(options : ProductSearchOptions) {
 
 export async function postProduct(product : Product) {
     try {
-        const response = await fetch("http://localhost:3000/api/v1/product",{
+        const response = await fetch("http://localhost:3000/api/v1/products",{
             method: "POST", // Specify the HTTP method
             headers: {
                 "Content-Type": "application/json", // Tell the server you're sending JSON

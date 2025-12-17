@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router";
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/_landingpage._index";
 
 export function meta({}: Route.MetaArgs) {
   return [

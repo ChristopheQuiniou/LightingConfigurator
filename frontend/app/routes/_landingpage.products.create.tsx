@@ -1,5 +1,5 @@
 import { redirect, type ActionFunctionArgs } from "react-router";
-import type { Route } from "./+types/createProduct";
+import type { Route } from "./+types/_landingpage.products.create";
 import { postProduct } from "~/features/product/productAPI";
 import type { Product } from "~/features/product/productType";
 
@@ -111,5 +111,5 @@ export default function CreateProduct() {
           </button>
         </form>
     </div>
-    </>;
+  </>;
 }

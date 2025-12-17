@@ -1,4 +1,4 @@
-import type { Route } from "./+types/about";
+import type { Route } from "./+types/_landingpage.about";
 
 export function meta({}: Route.MetaArgs) {
   return [
