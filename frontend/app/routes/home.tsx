@@ -1,9 +1,10 @@
+import { Link, NavLink } from "react-router";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Lightning configurator" },
-    { name: "description", content: "Lighning configurator v1" },
+    { title: "Home" },
+    { name: "description", content: "Lightning configurator v1" },
   ];
 }
 
@@ -25,39 +26,34 @@ export default function Home() {
         </h1>
 
         <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-300">
-          Browse pre-made configurations for <span className="text-slate-100">gaming</span>,{" "}
+          Browse pre-made lightning configurations for <span className="text-slate-100">gaming</span>,{" "}
           <span className="text-slate-100">pro installs</span>, and{" "}
-          <span className="text-slate-100">home lighting</span>. Clear descriptions, quick picks,
-          minimal fluff.
+          <span className="text-slate-100">home lighting</span> furnitures.
+          Get a price as you go.
         </p>
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a
-            href="/products"
+          <Link
+            to="/products"
             className="inline-flex items-center justify-center rounded-2xl bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 hover:bg-indigo-400"
           >
-            Configure products
-          </a>
-          <a
-            href="#features"
-            className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 hover:bg-white/10"
-          >
-            See features
-          </a>
+            Make my configuration
+          </Link>
+
         </div>
 
         <div className="mt-8 grid grid-cols-3 gap-3 text-xs text-slate-400">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
             <div className="text-slate-100 font-semibold">Fast</div>
-            <div>Pick a category & go</div>
+            <div>Pick a furniture & go</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
             <div className="text-slate-100 font-semibold">Practical</div>
-            <div>Real install use-cases</div>
+            <div>No tapemeasure required</div>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
             <div className="text-slate-100 font-semibold">Clean UI</div>
-            <div>No clutter, no chaos</div>
+            <div>Easy to configure</div>
           </div>
         </div>
       </div>
@@ -101,12 +97,12 @@ export default function Home() {
           </div>
 
           <div className="mt-6">
-            <a
-              href="/products"
+            <Link
+              to="/products"
               className="block w-full rounded-2xl bg-white px-5 py-3 text-center text-sm font-semibold text-slate-950 hover:bg-slate-100"
             >
               Browse all configs
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -114,59 +110,15 @@ export default function Home() {
 
     {/* Features */}
     <section id="features" className="mt-16">
-      <h2 className="text-2xl font-bold tracking-tight">What this project does</h2>
+      <h2 className="text-2xl font-bold tracking-tight">What this project is</h2>
       <p className="mt-2 max-w-2xl text-slate-300">
-        A tiny product catalog focused on “where LED strips go”, with categories like gaming, pro,
-        home, outdoor, automotive.
+        This project is designed to showcase my full-stack skills. It’s an e-commerce app where users can configure a furniture lighting kit in the Lightning Configurator, then purchase that custom kit through the shop. I built the platform with the MERN stack, integrated Three.js for the 3D configurator, Stripe for payments, and OAuth2 for secure sign-in.
       </p>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
-        {[
-          {
-            title: "Category-first browsing",
-            desc: "Jump straight to what you’re building: desk, TV, cabinetry, signage…",
-          },
-          {
-            title: "Simple product objects",
-            desc: "Name, description, image, category — easy to seed, easy to evolve.",
-          },
-          {
-            title: "Configurator CTA",
-            desc: "Clear path to /products so users don’t get stuck reading marketing forever.",
-          },
-        ].map((f) => (
-          <div
-            key={f.title}
-            className="rounded-3xl border border-white/10 bg-white/5 p-6"
-          >
-            <div className="text-sm font-semibold">{f.title}</div>
-            <div className="mt-2 text-sm text-slate-300">{f.desc}</div>
-          </div>
-        ))}
-      </div>
+      
     </section>
 
-    {/* Categories */}
-    <section id="categories" className="mt-16">
-      <h2 className="text-2xl font-bold tracking-tight">Categories</h2>
-      <p className="mt-2 text-slate-300">Pick a vibe, then pick a setup.</p>
-
-      <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-5">
-        {["gaming", "pro", "home", "outdoor", "automotive"].map((c) => (
-          <a
-            key={c}
-            href="/products"
-            className="group rounded-3xl border border-white/10 bg-white/5 p-5 hover:bg-white/10"
-          >
-            <div className="text-sm font-semibold capitalize">{c}</div>
-            <div className="mt-1 text-xs text-slate-400">View configs →</div>
-            <div className="mt-4 h-2 w-full rounded-full bg-white/10">
-              <div className="h-2 w-1/2 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 opacity-70 group-hover:opacity-100" />
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
+  
 
     {/* How it works */}
     <section id="how" className="mt-16">
@@ -174,9 +126,9 @@ export default function Home() {
         <h2 className="text-2xl font-bold tracking-tight">How it works</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {[
-            { n: "01", t: "Open products", d: "Go to the configurator list." },
-            { n: "02", t: "Filter by category", d: "Gaming / Pro / Home / Outdoor / Auto." },
-            { n: "03", t: "Pick a setup", d: "Use it as-is or extend it later." },
+            { n: "01", t: "Select a product", d: "Go to the configurator list." },
+            { n: "02", t: "Put the leds strips where you want", d: "You can even add options like smooth light up." },
+            { n: "03", t: "Order", d: "Use our stripe integration to purchase safely" },
           ].map((s) => (
             <div key={s.n} className="rounded-2xl border border-white/10 bg-slate-950/30 p-5">
               <div className="text-xs text-slate-400">{s.n}</div>
@@ -187,18 +139,13 @@ export default function Home() {
         </div>
 
         <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="/products"
+          <Link
+            to="/products"
             className="inline-flex items-center justify-center rounded-2xl bg-indigo-500 px-6 py-3 text-sm font-semibold text-white hover:bg-indigo-400"
           >
-            Go to /products
-          </a>
-          <a
-            href="#features"
-            className="inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 hover:bg-white/10"
-          >
-            Back to features
-          </a>
+            Let's go configure
+          </Link>
+          
         </div>
       </div>
     </section>

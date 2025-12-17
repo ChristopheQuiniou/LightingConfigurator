@@ -8,7 +8,7 @@ export const getProducts = async (req,res,next) => {
             category,
             search,
             sort = "-createdAt",
-            limit = 3,
+            limit= 20,
             page = 1,    
         } = req.query;
 
@@ -20,6 +20,11 @@ export const getProducts = async (req,res,next) => {
                 { name: { $regex: search, $options: "ix" } },
                 { description: { $regex: search, $options: "ix" } }
             ];
+        }
+
+        const maxLimit = 200;
+        if (limit > maxLimit) {
+            limit = maxLimit;
         }
         
         const products = await Product.find(filter).sort(sort).limit(parseInt(limit)).skip((page - 1) * limit);

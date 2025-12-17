@@ -2,6 +2,7 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -52,32 +53,38 @@ export default function App() {
 
       {/* Header */}
       <header className="relative mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
-        <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400" />
-          <div className="leading-tight">
-            <div className="text-sm font-semibold tracking-wide">LED Configurator</div>
-            <div className="text-xs text-slate-400">Pick a setup. Make it glow.</div>
+        <NavLink to="/">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400" />
+            <div className="leading-tight">
+              <div className="text-sm font-semibold tracking-wide">LED Configurator</div>
+              <div className="text-xs text-slate-400">Pick a setup. Make it glow.</div>
+            </div>
           </div>
-        </div>
-
+        </NavLink>
         <nav className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
-          <a href="#features" className="hover:text-white">
-            Features
-          </a>
-          <a href="#categories" className="hover:text-white">
-            Categories
-          </a>
-          <a href="#how" className="hover:text-white">
-            How it works
-          </a>
+          <NavLink to="/" className={
+            ({isActive, isPending, isTransitioning}) => [
+              isActive ? "underline" : "",
+              "hover:text-white"
+            ].join(" ")
+          }>Home</NavLink>
+
+          <NavLink to="/about" className={
+            ({isActive, isPending, isTransitioning}) => [
+              isActive ? "underline" : "",
+              "hover:text-white"
+            ].join(" ")
+          }>About</NavLink>
+
+          <NavLink to="/products" className={
+            ({isActive, isPending, isTransitioning}) => [
+              isActive ? "bg-white text-black hover:underline" : "hover:text-white",
+              "rounded-xl  px-4 py-2 text-sm font-semibold shadow-sm border "
+            ].join(" ")
+          }>Configurator →</NavLink>
         </nav>
 
-        <a
-          href="/products"
-          className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm hover:bg-slate-100"
-        >
-          Configure products →
-        </a>
       </header>
 
       <main className="relative mx-auto w-full max-w-6xl px-6 pb-20 pt-10 md:pt-16">
@@ -88,18 +95,13 @@ export default function App() {
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>© {new Date().getFullYear()} LED Configurator</div>
             <div className="flex gap-4">
-              <a href="/products" className="hover:text-white">
-                Products
-              </a>
-              <a href="#features" className="hover:text-white">
-                Features
-              </a>
+              Made by Christophe Quiniou
             </div>
           </div>
         </footer>
       </main>
     </div>
-  )
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
