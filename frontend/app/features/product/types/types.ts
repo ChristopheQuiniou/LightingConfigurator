@@ -1,6 +1,10 @@
+import type { Dispatch } from "@reduxjs/toolkit";
+import type { SetStateAction } from "react";
+
 export type Product = {
     _id?: string | null ,
     name?: string | null,
+    setName?: Function,
     description?: string | null ,
     category?: string | null ,
     imageURL?: string | null ,

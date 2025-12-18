@@ -1,5 +1,5 @@
 import { redirect } from "react-router";
-import type { Product, ProductSearchOptions } from "./productType";
+import type { Product, ProductSearchOptions } from "./types/types";
 
 export async function getProduct(id : String) {
     try {

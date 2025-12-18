@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import type { Route } from "./+types/configure.($id)";
 import { getProduct } from "~/features/product/productAPI";
+import { Canvas, useFrame } from "@react-three/fiber";
 
 export async function loader({ params }: Route.LoaderArgs) {
     const { data, error } = await getProduct(params.id ?? "");
@@ -45,6 +46,7 @@ export function ConfiguratorLayoutFullWidth() {
         setCurrentStepIndex(idx);
         setMobileMenuOpen(false);
     };
+
 
     return (
         <div className="min-h-dvh bg-white text-slate-900">
@@ -233,14 +235,22 @@ export function ConfiguratorLayoutFullWidth() {
                         {/* Left: Canvas */}
                         <section className="relative min-h-[55vh] lg:min-h-[calc(100dvh-220px)]">
                             {/* Replace this with your <Canvas> */}
-                            <div className="absolute inset-0 grid place-items-center">
+                            {/* <div className="absolute inset-0 grid place-items-center">
                                 <div className="text-center">
-                                    <div className="text-lg font-semibold">React Three Fiber</div>
+                                    <div className="text-lg font-semibold">Ohh snap!</div>
                                     <div className="text-sm text-slate-500">
-                                        Your 3D preview goes here
+                                        3D viewer unavailable
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
+                            <Canvas>
+                                <ambientLight intensity={0.1} />
+                                <directionalLight color="white" position={[0, 0, 5]} />
+                                <mesh>
+                                    <octahedronGeometry />
+                                    <meshStandardMaterial color="gold" />
+                                </mesh>
+                            </Canvas>
 
                             <div className="absolute left-4 top-4 flex items-center gap-2">
                                 <button className="border border-slate-200 bg-white px-3 py-2 text-xs hover:bg-slate-50">
@@ -346,24 +356,47 @@ export function ConfiguratorLayoutFullWidth() {
     );
 }
 
+import { TopBar } from "~/features/configurator/components/topBar";
+import { ConfigurationContext } from "~/features/configurator/context/configurationContext";
+import { proxy } from "valtio";
+import type { Steps } from "~/features/configurator/types/types";
+/* import { ConfigurationProvider } from "~/features/configurator/context/configurationProvider"; */
+
+// import { ThreeDViewer } from ...
+// import { Panel } from ...
+// import { Footer } from ...
+
 export default function Configure({ loaderData }: Route.ComponentProps) {
-    const { error, result } = loaderData;
+    const { result } = loaderData;
+
+    const currentStep = { id: 0, label: "Shape" };
+    const steps: Steps = [
+        { id: 0, label: "Shape" },
+        { id: 1, label: "Color" },
+        { id: 2, label: "Options" }
+    ];
+
+    ConfigurationContext.root = {
+        currentStep: currentStep,
+        steps: steps,
+        totalPrice: 100,
+        canPurchase: false,
+        products: [
+            {
+                _id: "dssdfsdfsfsdfsdf",
+                name: "Gate",
+                description: "Gate with water fountain",
+                category: "outdoor",
+                imageURL: "",
+                createdAt: "",
+                updatedAt: "",
+                __v: 1
+            }
+        ]
+    };
 
     return (
-        <>
-            {/* {error && (
-                <div className="mt-6 rounded-2xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">
-                {error}
-                </div>
-            )}
-
-            <h1>Product to configure</h1>
-            {result?.data?.name ?? "Custom product"}
-            <p>{result?.data?.description ?? "Custom product"}</p> */}
-
-            <ConfiguratorLayoutFullWidth />
-
-        </>
+        <TopBar />
     );
 }
 

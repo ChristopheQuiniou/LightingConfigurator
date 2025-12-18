@@ -1,12 +1,12 @@
 import type { ChangeEvent, FormEvent } from "react";
 import type { Route } from "./+types/_landingpage.products._index";
 import { getProducts } from "~/features/product/productAPI";
-import { ProductCategories, type Product, type ProductSearchOptions } from "~/features/product/productType";
+import { ProductCategories, type Product, type ProductSearchOptions } from "~/features/product/types/types";
 import { useRef, useState } from "react";
 import { Link, useSubmit } from "react-router";
 import { capitalize } from "~/utils/utils";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Step 1 : Products" },
     { name: "description", content: "Lightning configurator v1" },
@@ -60,7 +60,7 @@ export default function ProductsIndex({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="mx-auto max-w-6xl p-6">
-      
+
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
