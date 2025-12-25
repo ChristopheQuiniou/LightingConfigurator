@@ -1,37 +1,39 @@
-import { use, useContext, useState } from "react";
-import { ConfigurationContext } from "../context/configurationContext";
-import type { Step } from "../types/types";
-import { snapshot, useSnapshot } from "valtio";
-
+import { observer } from "mobx-react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router";
+import { configurationProvider } from "../context/configurationProvider";
 
 function cn(...classes: Array<string | false | null | undefined>) {
     return classes.filter(Boolean).join(" ");
 }
 
 
-export function TopBar() {
-    const configurationSnap = useSnapshot(ConfigurationContext).root;
+const TopBar = observer(() => {
+
+    const configuration = configurationProvider.getCurrentConfiguration();
+
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-    const mainProduct = configurationSnap.products[0] ?? {};
+    const mainProduct = configuration.products[0] ?? {};
+    const navigate = useNavigate();
 
     const save = () => {
         console.log("save");
     }
 
-    const quit = () => {
-        console.log("GO to home");
+    const QuitConfigurator = () => {
+        navigate(-1);
     }
 
     const purchase = () => {
         console.log("Purchase !");
     }
 
-    const goToStep = (i: number) => {
+    const GoToStep = (i: number) => {
         console.log("next step id ", i);
-        const nextStep = configurationSnap.steps.find((step) => step.id == i);
+        const nextStep = configuration.steps.find((step) => step.id == i);
         if (nextStep)
-            ConfigurationContext.root.currentStep = nextStep;
+            configuration.currentStep = nextStep.id;
     }
 
     return (
@@ -43,21 +45,21 @@ export function TopBar() {
                         <div className="leading-tight">
                             <div className="text-sm font-semibold">Configurator</div>
                             <div className="text-xs text-slate-500">
-                                Step {configurationSnap.currentStep.id + 1} of {configurationSnap.steps.length}:{" "}
-                                <span className="font-medium text-slate-700">{configurationSnap.currentStep.label}</span>
+                                Step {configuration.currentStep + 1} of {configuration.steps.length}:{" "}
+                                <span className="font-medium text-slate-700">{configuration.steps[configuration.currentStep].label}</span>
                             </div>
                         </div>
                     </div>
 
                     <nav className="hidden md:flex items-center gap-2">
-                        {configurationSnap.steps.map((s, i) => {
-                            const isActive = i === configurationSnap.currentStep.id;
-                            const isDone = i < configurationSnap.currentStep.id;
+                        {configuration.steps.map((s, i) => {
+                            const isActive = i === configuration.currentStep;
+                            const isDone = i < configuration.currentStep;
                             return (
                                 <button
                                     key={i}
                                     type="button"
-                                    onClick={() => goToStep(i)}
+                                    onClick={() => GoToStep(i)}
                                     className={cn(
                                         "flex items-center gap-2 px-3 py-1 text-xs font-medium",
                                         isActive
@@ -101,7 +103,7 @@ export function TopBar() {
 
                         <button
                             type="button"
-                            onClick={quit}
+                            onClick={QuitConfigurator}
                             className="border border-slate-200 bg-white px-4 py-2 text-sm font-semibold hover:bg-slate-50"
                         >
                             Quit
@@ -123,11 +125,11 @@ export function TopBar() {
                     className={cn("md:hidden", mobileMenuOpen ? "block" : "hidden")}
                 >
                     <div className="mt-3 border border-slate-200 bg-white">
-                        {configurationSnap.steps.map((s, i) => (
+                        {configuration.steps.map((s, i) => (
                             <button
                                 key={s.id}
                                 type="button"
-                                onClick={() => goToStep(i)}
+                                onClick={() => GoToStep(i)}
                                 className="w-full border-b border-slate-200 px-4 py-3 text-left text-sm hover:bg-slate-50"
                             >
                                 {i + 1}. {s.label}
@@ -141,16 +143,16 @@ export function TopBar() {
                             <div className="mt-3 flex items-center justify-between gap-3">
                                 <div>
                                     <div className="text-xs text-slate-500">Total</div>
-                                    <div className="text-lg font-semibold">${configurationSnap.totalPrice.toFixed(2)}</div>
+                                    <div className="text-lg font-semibold">${configuration.totalPrice.toFixed(2)}</div>
                                 </div>
 
                                 <button
                                     className={cn(
                                         "px-5 py-3 text-sm font-semibold text-white",
-                                        configurationSnap.canPurchase ? "bg-emerald-500 hover:bg-emerald-600" : "bg-slate-300 cursor-not-allowed"
+                                        configuration.canPurchase() ? "bg-emerald-500 hover:bg-emerald-600" : "bg-slate-300 cursor-not-allowed"
                                     )}
                                     onClick={purchase}
-                                    disabled={!configurationSnap.canPurchase}
+                                    disabled={!configuration.canPurchase}
                                 >
                                     Purchase
                                 </button>
@@ -169,4 +171,6 @@ export function TopBar() {
             </div>
         </header>
     );
-}
+});
+
+export default TopBar;

@@ -1,7 +1,7 @@
 import { redirect, type ActionFunctionArgs } from "react-router";
 import type { Route } from "./+types/_landingpage.products.create";
 import { postProduct } from "~/features/product/productAPI";
-import type { Product } from "~/features/product/types/types";
+import type { IProduct } from "~/features/product/types/types";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -28,7 +28,7 @@ export async function action({ request }: ActionFunctionArgs) {
     return { error: "Description required" };
   }
 
-  const result = await postProduct({ name, description, category, imageURL } as Product);
+  const result = await postProduct({ name, description, category, imageURL } as IProduct);
 
   if (result?.error) {
     return { error: result.error };
@@ -38,6 +38,7 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function CreateProduct() {
+
   return <>
     <div className="mx-auto max-w-xl px-6 py-10">
       <h1 className="text-2xl font-bold">Backoffice · Create Product</h1>
