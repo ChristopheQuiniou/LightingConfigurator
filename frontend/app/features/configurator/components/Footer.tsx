@@ -1,10 +1,9 @@
-import { useSnapshot } from "valtio";
 import { observer } from "mobx-react";
-import { configurationProvider } from "../context/configurationProvider";
+import { useConfiguration } from "../provider/configurationProvider";
 
 const Footer = observer(() => {
 
-    const configuration = configurationProvider.getCurrentConfiguration();
+    const configuration = useConfiguration();
     const currentProduct = configuration.products[0] ?? {};
 
     return (

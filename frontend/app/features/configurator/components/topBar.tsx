@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import { configurationProvider } from "../context/configurationProvider";
+import { useConfiguration } from "../provider/configurationProvider";
 
 function cn(...classes: Array<string | false | null | undefined>) {
     return classes.filter(Boolean).join(" ");
@@ -10,7 +10,7 @@ function cn(...classes: Array<string | false | null | undefined>) {
 
 const TopBar = observer(() => {
 
-    const configuration = configurationProvider.getCurrentConfiguration();
+    const configuration = useConfiguration();
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

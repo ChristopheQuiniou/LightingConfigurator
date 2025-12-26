@@ -1,10 +1,10 @@
 import { Canvas } from "@react-three/fiber";
 import { observer } from "mobx-react";
-import { configurationProvider } from "../context/configurationProvider";
+import { useConfiguration } from "../provider/configurationProvider";
 
 const Viewer3D = observer(() => {
 
-    const configuration = configurationProvider.getCurrentConfiguration();
+    const configuration = useConfiguration();
     const mainProduct = configuration.products[0] ?? {};
     return (
         <section className="relative min-h-[55vh] lg:min-h-[calc(100dvh-220px)]">
